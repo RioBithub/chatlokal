@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Sederhana</title>
+    <!-- Tambahkan CSS sesuai kebutuhan -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div id="chatBox">
+        <!-- Pesan akan ditampilkan di sini -->
+    </div>
+    <form id="messageForm">
+        <input type="text" id="username" placeholder="Username">
+        <textarea id="message" placeholder="Tulis pesan..."></textarea>
+        <button type="submit">Kirim</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#messageForm').submit(function(e) {
+                e.preventDefault();
+                $.post('send_message.php', {
+                    username: $('#username').val(),
+                    message: $('#message').val()
+                }, function(response) {
+                    // Tampilkan pesan ke chat box atau tampilkan error
+                    $('#message').val(''); // Bersihkan field message
+                });
+            });
+
+            // Fungsi untuk memuat pesan
+            function loadMessages() {
+                $.get('get_messages.php', function(response) {
+                    // Tampilkan pesan di chat box
+                });
+            }
+
+            // Muat pesan secara berkala
+            setInterval(loadMessages, 3000); // Setiap 3 detik
+        });
+    </script>
+</body>
+</html>
